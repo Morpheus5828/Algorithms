@@ -8,6 +8,15 @@ def bullet_tris(lists):
     return lists
 
 
+def swap(lists, j, j_plus_un):
+    tmp = lists[j_plus_un]
+    lists[j_plus_un] = lists[j]
+    lists[j] = tmp
+
+
+##########################################
+
+
 def insertion(lists):
     n = len(lists)
     for i in range(1, n):
@@ -20,11 +29,31 @@ def insertion(lists):
     return lists
 
 
-def swap(lists, j, j_plus_un):
-    tmp = lists[j_plus_un]
-    lists[j_plus_un] = lists[j]
-    lists[j] = tmp
+##########################################
 
+
+def quick(l, r, lists):
+    # Terminate condition for recursion
+    if len(lists) == 1:
+        return lists
+    if l < r:
+        q = partition(l, r, lists)
+        quick(l, q - 1, lists)
+        quick(q + 1, r, lists)
+    return lists
+
+
+def partition(left, right, lists):
+    pivot_value, ptr = lists[right], left
+    for j in range(left, right):
+        if lists[j] <= pivot_value:
+            lists[j], lists[ptr] = lists[ptr], lists[j]
+            ptr += 1
+    lists[ptr], lists[right] = lists[right], lists[ptr]
+    return ptr
+
+
+##########################################
 
 numbers = [13, -2, -5, 6, 8, 0]
-print(insertion(numbers))
+print(quick(0, len(numbers) - 1, numbers))
